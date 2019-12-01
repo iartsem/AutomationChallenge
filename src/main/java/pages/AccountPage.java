@@ -13,7 +13,7 @@ public class AccountPage extends BasePage{
     @FindBy(xpath = "//a[contains(text(), 'Log Out')]")
     private WebElement logoutLink;
 
-    public boolean hasRegistrationLink() {
+    public boolean hasLogoutLink() {
         LOGGER.debug("Start checking is logout link appeared or no");
         return logoutLink.isEnabled();
     }
