@@ -35,8 +35,9 @@ public class BasePage extends AbstractPage {
         return new LoginPage(webDriver);
     }
 
-    public ProductPage navigateToRandomProducatPage() {
-        WebElement element = products.get(RandomHelper.getRandomNumber(products.size()));
+    public ProductPage navigateToRandomProductPage() {
+        int productAmount = products.size() -1;
+        WebElement element = products.get(RandomHelper.getRandomNumber(productAmount));
         LOGGER.debug("Page " + element.getText() + " was opened");
         element.click();
         return new ProductPage(webDriver);

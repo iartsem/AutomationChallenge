@@ -32,6 +32,5 @@ public class XLSXManager {
         }
 
         return arrayExcelData;
-
     }
 }

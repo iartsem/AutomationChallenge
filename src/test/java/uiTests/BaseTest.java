@@ -19,11 +19,11 @@ public abstract class BaseTest {
         manager = BrowserManagerFactory.getManager(BrowserName.CHROME);
         webDriver = manager.getDriver();
         basePage = new BasePage(webDriver).open();
+        webDriver.manage().window().maximize();
     }
 
     @AfterClass
     public void afterClass() {
         manager.quitDriver();
     }
-
 }
