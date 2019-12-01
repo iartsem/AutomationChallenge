@@ -1,56 +1,44 @@
 package pages;
 
-import decorator.WebDriverDecorator;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.Button;
-import ru.yandex.qatools.htmlelements.element.TextInput;
 
-import static utils.PropertiesReader.getPropertyValue;
+public class LoginPage extends BasePage{
 
-public class LoginPage extends AbstractPage {
-
-    private static final String URL = getPropertyValue("BASE_URL");
-
-    public LoginPage(WebDriverDecorator webDriverDecorator) {
-        super(webDriverDecorator);
+    public LoginPage(WebDriver driver) {
+        super(driver);
     }
 
-    @FindBy(id = "user[login]")
-    private TextInput loginForSignInInput;
+    @FindBy(xpath = "//input[@name='login[username]']")
+    private WebElement loginForSignInInput;
 
-    @FindBy(id = "user[password]")
-    private TextInput passwordForSignInInput;
+    @FindBy(xpath = "//input[@name='login[password]']")
+    private WebElement passwordForSignInInput;
 
-    @FindBy(xpath = "//input[@class='lrow-btn']")
-    private Button submitButton;
+    @FindBy(xpath ="//button[@name='send']")
+    private WebElement loginButton;
 
-    public LoginPage open() {
-        webDriverDecorator.get(URL);
-        LOGGER.debug("Page " + URL + " was opened");
-        return this;
+    private void fillLoginInput(String login) {
+        loginForSignInInput.sendKeys(login);
     }
 
-    public void fillCredentials(String login, String password) {
+    private void fillPasswordInput(String password) {
+        passwordForSignInInput.sendKeys(password);
+    }
+
+    private void clickLoginButton() {
+        loginButton.click();
+    }
+
+    private void fillCredentials(String login, String password) {
         fillLoginInput(login);
         fillPasswordInput(password);
     }
 
-    private void fillLoginInput(String login) {
-        webDriverDecorator.waitHighlightInput(loginForSignInInput, login);
-    }
-
-    private void fillPasswordInput(String password) {
-        webDriverDecorator.waitHighlightClick(passwordForSignInInput);
-        webDriverDecorator.waitHighlightInput(passwordForSignInInput, password);
-    }
-
-    public void clickSubmit() {
-        webDriverDecorator.waitHighlightClick(submitButton);
-    }
-
-    public void clickAllActionsOnSignInForm(String login, String password) {
-        open();
+    public AccountPage login(String login, String password) {
         fillCredentials(login, password);
-        clickSubmit();
+        clickLoginButton();
+        return new AccountPage(webDriver);
     }
 }

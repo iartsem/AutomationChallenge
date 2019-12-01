@@ -1,10 +1,11 @@
 package uiTests;
 
-import exel.ExelManager;
+import exel.XLSXManager;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import xmlModel.User;
-
-import java.util.List;
+import pages.AccountPage;
+import pages.LoginPage;
 
 import static utils.PropertiesReader.getPropertyValue;
 
@@ -12,10 +13,19 @@ public class UITests extends BaseTest{
 
     private static final String FILE_PATH = getPropertyValue("XLSX_FILE_PATH");
 
-    @Test
-    public void loginTest() {
+    @Test (dataProvider = "dataForLogin")
+    public void loginTest(String login, String password) {
 
-        List<User> users = ExelManager.getUsersFromExel(FILE_PATH);
-
+        LoginPage loginPage = basePage.navigateToLoginPage();
+        AccountPage accountPage = loginPage.login(login, password);
+        Assert.assertTrue(accountPage.hasRegistrationLink());
+        accountPage.logout();
+        accountPage.navigateToLoginPage();
     }
+
+    @DataProvider(name = "dataForLogin")
+    public Object[][] dataProvider() {
+        return XLSXManager.getXLSXData(FILE_PATH);
+    }
+
 }
