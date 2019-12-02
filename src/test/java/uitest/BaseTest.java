@@ -1,4 +1,4 @@
-package uiTests;
+package uitest;
 
 import browserFactory.BrowserManager;
 import browserFactory.BrowserManagerFactory;

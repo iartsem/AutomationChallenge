@@ -1,4 +1,4 @@
-package uiTests;
+package uitest;
 
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
